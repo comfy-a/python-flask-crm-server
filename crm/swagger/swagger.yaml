@@ -1,0 +1,104 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "CRM"
+host: "127.0.0.1:8080"
+basePath: "/v2"
+schemes:
+- "https"
+- "http"
+paths:
+  /user:
+    get:
+      tags:
+      - "user"
+      summary: "사용자 조회"
+      operationId: "user_get"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "success"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+      x-swagger-router-controller: "crm.controllers.user_controller"
+    post:
+      tags:
+      - "user"
+      summary: "사용자 등록"
+      operationId: "user_post"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "success"
+      x-swagger-router-controller: "crm.controllers.user_controller"
+    put:
+      tags:
+      - "user"
+      summary: "사용자 수정"
+      operationId: "user_put"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "success"
+      x-swagger-router-controller: "crm.controllers.user_controller"
+  /user/{id}:
+    delete:
+      tags:
+      - "user"
+      summary: "사용자 삭제"
+      operationId: "user_id_delete"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "success"
+      x-swagger-router-controller: "crm.controllers.user_controller"
+definitions:
+  User:
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      age:
+        type: "integer"
+      gender:
+        type: "string"
+        enum:
+        - "남자"
+        - "여자"
+    example:
+      gender: "남자"
+      name: "name"
+      id: 0
+      age: 0

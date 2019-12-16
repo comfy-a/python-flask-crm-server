@@ -5,16 +5,14 @@ from crm.models.user import User  # noqa: E501
 from crm import util
 from crm.service.user_service import UserService
 
-def user_get():  # noqa: E501
+def user_get(name=None, age=None, gender=None):  # noqa: E501
     """사용자 조회
 
     # noqa: E501
 
     """
-    response = []
-
     user_service = UserService()
-    response = user_service.user_get()
+    response = user_service.user_get(name, age, gender)
 
     return response
 
@@ -69,6 +67,5 @@ def user_id_delete(id):  # noqa: E501
 
     user_service = UserService()
     response = user_service.user_delete(id)
-    print(response)
 
     return response

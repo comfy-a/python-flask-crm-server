@@ -9,15 +9,30 @@ class UserService():
     def __init__(self, logger=None):
         self.logger = logging.getLogger('User service')
 
-    def user_get(self):
+    def user_get(self, name=None, age=None, gender=None):
         self.logger = logging.getLogger('사용자 조회')
 
         try:
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
-            sqlQuery = "SELECT * FROM user"
-            cursor.execute(sqlQuery)
+            sqlQuery = "SELECT * FROM user WHERE 1=1"
+            args = []
+
+            if name:
+                sqlQuery += " AND name LIKE %s"
+                args.append("%" + name + "%")
+            if age:
+                sqlQuery += " AND age = %s"
+                args.append(age)
+            if gender:
+                sqlQuery += " AND gender = %s"
+                args.append(gender)
+
+            cursor.execute(sqlQuery, args)
             response = cursor.fetchall()
+
+            if cursor.rowcount is 0:
+                return []
             
             return response
         except Exception as e:
@@ -29,7 +44,7 @@ class UserService():
     def user_post(self, user):
         self.logger = logging.getLogger('사용자 등록')
         
-        user_name = user['name']
+        name = user['name']
         age = user['age']
         gender = user['gender']
 
@@ -37,7 +52,7 @@ class UserService():
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
             sqlQuery = "INSERT INTO user (name, age, gender) VALUES (%s, %s, %s)"
-            bindData = (user_name, age, gender)
+            bindData = (name, age, gender)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
             
@@ -52,7 +67,7 @@ class UserService():
         self.logger = logging.getLogger('사용자 수정')
 
         user_id = user['id']
-        user_name = user['name']
+        name = user['name']
         age = user['age']
         gender = user['gender']
 
@@ -60,7 +75,7 @@ class UserService():
             conn = mysql.connect()
             cursor = conn.cursor(pymysql.cursors.DictCursor)
             sqlQuery = "UPDATE user SET name=%s, age=%s, gender=%s WHERE id=%s"
-            bindData = (user_name, age, gender, user_id)
+            bindData = (name, age, gender, user_id)
             cursor.execute(sqlQuery, bindData)
             conn.commit()
             

@@ -111,8 +111,26 @@ definitions:
         enum:
         - "남자"
         - "여자"
+      addr:
+        $ref: "#/definitions/Addr"
     example:
       gender: "남자"
       name: "name"
       id: 0
-      age: 0
+      addr:
+        zip_no: "zip_no"
+        detail_addr: "detail_addr"
+        base_addr: "base_addr"
+      age: 6
+  Addr:
+    properties:
+      zip_no:
+        type: "string"
+      base_addr:
+        type: "string"
+      detail_addr:
+        type: "string"
+    example:
+      zip_no: "zip_no"
+      detail_addr: "detail_addr"
+      base_addr: "base_addr"
